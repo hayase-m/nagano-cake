@@ -17,6 +17,16 @@ class Public::SessionsController < Devise::SessionsController
     return if is_active? #is_activeがtrueならメソッドを終了
     redirect_to new_customer_registration_path #falseならsign_upに移動
   end
+
+  def after_sign_in_path_for(resource)
+    root_path
+  end
+
+    # ログアウト後のリダイレクト先
+  def after_sign_out_path_for(resource)
+    root_path
+  end
+  
   # GET /resource/sign_in
   # def new
   #   super
