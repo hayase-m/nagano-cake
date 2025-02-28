@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  namespace :public do
+    get 'customers/show'
+    get 'customers/edit'
+    get 'customers/update'
+    get 'customers/unsubscribe'
+    get 'customers/withdraw'
+  end
   namespace :admin do
     resources :order_details, only:[:update]
   
@@ -28,7 +35,15 @@ Rails.application.routes.draw do
         delete :destroy_all
       end
     end
-  
+
+    controller :customers do
+      get "customers/my_page", action: :show
+      get "customers/information/edit", action: :edit
+      patch "customers/information", action: :update
+      get "customers/unsubscribe", action: :unsubscribe
+      patch "customers/withdraw", action: :withdraw
+    end
+    
     resources :items, only: [:show, :index]
   
     root to: 'homes#top'
@@ -40,15 +55,6 @@ Rails.application.routes.draw do
     registrations: "public/registrations",
     sessions: 'public/sessions'
   }
-  controller :customers do
-    get "customers/my_page", action: :show
-    get "customers/information/edit", action: :edit
-    patch "customers/information", action: :update
-    get "customers/unsubscribe", action: :unsubscribe
-    patch "customers/withdraw", action: :withdraw
-  end
-
-
 
   # 管理者用
   devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
