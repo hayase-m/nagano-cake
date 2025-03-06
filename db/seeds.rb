@@ -6,5 +6,5 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 # Genre.create!(name:"sweets")
-# Item.create!(genre_id:1,name: "サンプル商品", price: 1111, introduction: "これはサンプル商品です。")
+Item.create!(genre_id:1,name: "サンプル商品", price: 1111, introduction: "これはサンプル商品です。")
 # Item.create!(genre_id:1,name: "いちごケーキのサンプル", price: 1000, introduction: "これはいちごケーキのサンプル商品です。")
