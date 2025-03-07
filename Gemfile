@@ -62,3 +62,10 @@ gem "enum_help"
 gem 'kaminari','~> 1.2.1'
 
 gem 'bootstrap5-kaminari-views', '~> 0.0.1'
+
+group :development do
+  gem 'prettier_print'
+  gem 'syntax_tree'
+  gem 'syntax_tree-haml'
+  gem 'syntax_tree-rbs'
+end
