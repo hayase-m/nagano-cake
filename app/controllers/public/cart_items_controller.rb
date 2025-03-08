@@ -1,17 +1,13 @@
 class Public::CartItemsController < ApplicationController
   before_action :authenticate_customer!
-  
-  def index
-  end
 
-  def update
-  end
+  def index; end
 
-  def destroy
-  end
+  def update; end
 
-  def destroy_all
-  end
+  def destroy; end
+
+  def destroy_all; end
 
   def create
     @cart_item = CartItem.new(cart_item_params)
@@ -20,7 +16,7 @@ class Public::CartItemsController < ApplicationController
       redirect_to cart_items_path
     else
       @item = Item.find(params[:cart_item][:item_id])
-      render "public/items/show"
+      render 'public/items/show'
     end
   end
 
