@@ -5,6 +5,7 @@
     </div>
 
     <div class="col-lg-10 position-relative my-auto">
+      <%#= render "public/shared/error_messages", resource: @cart_item %>
       <div class="row">
         <div class="col-lg-5 d-flex justify-content-center">
           <%= image_tag @item.get_item_image(300,300) %>
@@ -13,19 +14,19 @@
           <h2 class="mb-3"><%= @item.name %></h2>
           <h3 class="mb-3"><%= @item.introduction %></h3>
           <p class="my-5"><%= @item.tax_included_price %>（税込）</p>
+          <%= form_with model: @cart_item,url:cart_items_path,method: :post do |f| %>
           <div class="row">
             <div class="col-md-6">
-              <%= form_with model: @cart_item,url:cart_items_path,method: :post do |f| %>
               <%= f.hidden_field :item_id, value: @item.id %>
-              <%= f.select :amount, (1..10).to_a,{include_blank: "個数選択" },{ class: "p-3 w-75 form-select border-success border-2 rounded" ,style:"border-width:2px;"} %>
+              <%= f.select :amount, (1..10).to_a,{},{ class: "p-3 w-75 form-select border-success border-2 rounded" ,style:"border-width:2px;"} %>
             </div>
             <div class="col-md-6">
               <%= f.submit 'カートに入れる',class: 'btn text-white btn-success py-3 px-5'%>
-              <% end %>
-              <%# <%= link_to "カートに入れる",cart_items_path,style:"color: white;text-decoration: none;" %>
             </div>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

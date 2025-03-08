@@ -1,2 +1,67 @@
-<h1>Public::CartItems#index</h1>
-<p>Find me in app/views/public/cart_items/index.html.erb</p>
+<div class="container mt-3">
+  <div>
+    <%= flash[:notice] %>
+  </div>
+  <div class="row">
+    <h3 class="col-md-3 bg-light rounded p-3">ショッピングカート</h3>
+    <div class="offset-md-6 col-md-3 py-auto my-auto">
+      <%= link_to "カートを空にする", destroy_all_cart_items_path, method: :delete, class: 'btn text-white btn-danger py-3 px-5 fx-3' %>
+    </div>
+  </div>
+
+  <div class="row d-flex justify-content-center mt-2">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>商品名</th>
+          <th>単価（税込）</th>
+          <th>数量</th>
+          <th>小計</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @cart_items.each do |cart_item| %>
+        <tr>
+          <td>
+            <%= image_tag cart_item.item.get_item_image(80,80) %>
+            <%= link_to cart_item.item.name, item_path(cart_item.item.id)  %>
+          </td>
+          <td>
+            <%= cart_item.item.tax_included_price %>
+          </td>
+          <td>
+            <%= form_with model: cart_item,url:cart_item_path(cart_item),method: :patch do |f| %>
+            <%= f.select :amount, (1..20).to_a,{selected: cart_item.amount},{ class: "p-2 w-50 form-select border-success border-2 rounded" ,style:"border-width:2px;"} %>
+            <%= f.submit '変更',class: 'btn text-white btn-success'%>
+            <% end %>
+          </td>
+          <td>
+            <%= cart_item.subtotal %>
+          </td>
+          <% @total += cart_item.subtotal %>
+          <td>
+            <%= link_to "削除する", cart_item_path(cart_item), method: :delete, class: 'btn text-white btn-danger' %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="row d-flex justify-content-center mt-2">
+    <div class="col-md-4 d-flex justify-content-center my-auto">
+      <%= link_to "買い物を続ける", root_path, class: 'btn text-white btn-primary' %>
+    </div>
+    <div class="offset-md-4 col-md-4 d-flex justify-content-end">
+      <table class="table table-bordered my-auto" style="border: 2px solid rgb(52, 53, 55);">
+        <tr>
+          <td>合計金額</td>
+          <td class="text-end fw-bold"><%= @total %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center mt-5">
+    <%= link_to "情報入力に進む", new_order_path, class: 'btn text-white btn-success p-3' %>
+  </div>
+</div>
