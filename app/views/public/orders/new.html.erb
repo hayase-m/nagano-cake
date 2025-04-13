@@ -1,65 +1,66 @@
 <div class="container mt-4">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
+	<div class="row">
+		<div class="col-md-8 offset-md-2">
 
-      <h4 class="mb-4 fw-bold">注文情報入力</h4>
+			<h4 class="mb-4 fw-bold">注文情報入力</h4>
 
-      <div class="mb-4">
-        <label class="form-label" style="font-weight: bold;">支払方法</label>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" id="creditcard" name="payment">
-          <label class="form-check-label" for="creditcard">クレジットカード</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" id="bank" name="payment">
-          <label class="form-check-label" for="bank">銀行振込</label>
-        </div>
-      </div>
+			<%= form_with model: Order.new, url: confirm_orders_path do |f| %>
+			<div class="mb-4">
+				<label class="form-label" style="font-weight: bold;">支払方法</label>
+				<div class="form-check">
+					<%= f.radio_button :payment_method, Order.payment_methods.key(0), id: 'creditcard', class: 'form-check-input' %>
+					<%= f.label :payment_method_credit_card, Order.payment_methods_i18n[Order.payment_methods.key(0)], class: 'form-check-label', for: 'creditcard' %>
+				</div>
+				<div class="form-check">
+					<%= f.radio_button :payment_method, Order.payment_methods.key(1), id: 'transfer', class: 'form-check-input' %>
+					<%= f.label :payment_method_transfer, Order.payment_methods_i18n[Order.payment_methods.key(1)], class: 'form-check-label', for: 'transfer' %>
+				</div>
+			</div>
 
-      <div class="mb-4">
-        <label class="form-label" style="font-weight: bold;">お届け先</label>
-
-        <div class="form-check">
-          <input class="form-check-input" type="radio" id="myaddress" name="shipment">
-          <label class="form-check-label" for="myaddress">
-						ご自身の住所<br>
-						<%= @customer.postal_code%> <%= @customer.address %><br>
-						<%= @customer.last_name %><%= @customer.first_name %>
-          </label>
-        </div>
+			<div class="mb-4">
+				<label class="form-label" style="font-weight: bold;">お届け先</label>
 
 				<div class="form-check">
-					<input class="form-check-input" type="radio" name="shipment" id="select-address">
-					<label class="form-check-label" for="select-address">登録済住所から選択</label>
-
-					<select class="form-select mt-2" id="address-select">
-						<option value="1">〒1000001 東京都千代田区千代田</option>
-						<option value="2">〒1600022 東京都新宿区新宿</option>
-					</select>
+					<%= f.radio_button :select_address, 0, id: 'myaddress', class: 'form-check-input' %>
+					<%= f.label :select_address_myaddress, 'ご自身の住所', class: 'form-check-label', for: 'myaddress' %>
 				</div>
 
-        <div class="form-check mt-2">
-          <input class="form-check-input" type="radio">
-          <label class="form-check-label"></label>
+				<div class="form-check mt-2">
+					<%= f.radio_button :select_address, 1, id: 'select_address', class: 'form-check-input' %>
+					<%= f.label :select_address_select_address, '登録済住所から選択', class: 'form-check-label', for: 'select_address' %>
+					<%= f.select :address_id, options_from_collection_for_select(Address.all, :id, :address_display), { prompt: 'お届け先を選択してください' }, class: 'form-select' %>
+				</div>
 
-          <div class="row mt-2">
-            <div class="col-md-4">
-              <input type="text" class="form-control">
-            </div>
-            <div class="col-md-8 mt-2 mt-md-0">
-              <input type="text" class="form-control">
-            </div>
-            <div class="col-md-12 mt-2">
-              <input type="text" class="form-control">
-            </div>
-          </div>
-        </div>
-      </div>
+				<div class="form-check mt-2">
+					<%= f.radio_button :select_address, 2, id: 'new_address', class: 'form-check-input' %>
+					<%= f.label :select_address_new_address, '新しいお届け先', class: 'form-check-label', for: 'new_address' %>
 
-      <div class="d-grid">
-        <button class="btn btn-primary"></button>
-      </div>
+					<div class="row mt-2">
+						<div class="col-md-12">
+							<%= f.label :postal_code, '郵便番号（ハイフンなし）', class: 'form-label' %>
+							<%= f.text_field :postal_code, class: 'form-control' %>
+						</div>
+					</div>
+					<div class="row mt-2">
+						<div class="col-md-12">
+							<%= f.label :address, '住所', class: 'form-label' %>
+							<%= f.text_field :address, class: 'form-control' %>
+						</div>
+					</div>
+					<div class="row mt-2">
+						<div class="col-md-12">
+							<%= f.label :name, '宛名', class: 'form-label' %>
+							<%= f.text_field :name, class: 'form-control' %>
+						</div>
+					</div>
+				</div>
+			</div>
 
-    </div>
-  </div>
+			<div class="d-grid">
+				<button class="btn btn-primary">確認画面へ進む</button>
+			</div>
+			<% end %>
+
+		</div>
+	</div>
 </div>
