@@ -8,6 +8,8 @@ class Public::OrdersController < ApplicationController
 
   def confirm
     @order = Order.new(order_params)
+    @total = 0
+    @cart_items = current_customer.cart_items
 
     case params[:order][:select_address]
     when '0'
@@ -26,13 +28,7 @@ class Public::OrdersController < ApplicationController
     else
       render :new and return
     end
-
-    binding.pry
-    if @order.save
-      redirect_to order_path(order)
-    else
-      render :new
-    end
+    render :confirm
   end
 
   def thanks; end
