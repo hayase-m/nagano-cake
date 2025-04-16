@@ -30,7 +30,7 @@ class Public::CartItemsController < ApplicationController
   end
 
   def destroy_all
-    if CartItem.destroy_all
+    if CartItem.where(customer_id: current_customer.id).destroy_all
       flash[:notice] = 'カートを空にしました'
       redirect_to cart_items_path
     else
