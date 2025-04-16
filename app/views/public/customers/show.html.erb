@@ -1,2 +1,59 @@
-<h1>Public::Customers#show</h1>
-<p>Find me in app/views/public/customers/show.html.erb</p>
+<div class="container mt-3">
+  <div class="row">
+    <h3 class="col-md-3 bg-light rounded text-black p-2">マイページ</h3>
+  </div>
+  <div class="row mt-5 align-items-center">
+    <div class="col-md-2">
+      <h4 class="mb-0", style="font-weight: bold;">登録情報</h4>
+    </div>
+    <div class="col-md-2 offset-md-1">
+      <%= link_to '編集する', customers_information_edit_path, class: "btn btn-success btn-lg" %>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <table class="table table-bordered col-md-8">
+      <thead>
+        <tr>
+          <th style="background-color: #f0f0f0; width: 150px;">氏名</th>
+          <td><%= current_customer.last_name + current_customer.first_name %></td>
+        </tr>
+        <tr>
+          <th style="background-color: #f0f0f0; width: 150px;">カナ</th>
+          <td><%= current_customer.last_name_kana + current_customer.first_name_kana %></td>
+        </tr>
+        <tr>
+          <th style="background-color: #f0f0f0; width: 150px;">郵便番号</th>
+          <td><%= current_customer.postal_code %></td>
+        </tr>
+        <tr>
+          <th style="background-color: #f0f0f0; width: 150px;">住所</th>
+          <td><%= current_customer.address %></td>
+        </tr>
+        <tr>
+          <th style="background-color: #f0f0f0; width: 150px;">電話番号</th>
+          <td><%= current_customer.telephone_number %></td>
+        </tr>
+        <tr>
+          <th style="background-color: #f0f0f0; width: 150px;">メールアドレス</th>
+          <td><%= current_customer.email %></td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="row mt-4 align-items-center">
+    <div class="col-md-2">
+      <h4 class="mb-0", style="font-weight: bold;">配送先</h4>
+    </div>
+    <div class="col-md-2 offset-md-1">
+      <%= link_to '一覧を見る', addresses_path, class: "btn btn-primary btn-lg" %>
+    </div>
+  </div>
+  <div class="row mt-4 align-items-center">
+    <div class="col-md-2">
+      <h4 class="mb-0", style="font-weight: bold;">注文履歴</h4>
+    </div>
+    <div class="col-md-2 offset-md-1">
+      <%= link_to '一覧を見る', orders_path, class: "btn btn-primary btn-lg" %>
+    </div>
+  </div>
+</div>
