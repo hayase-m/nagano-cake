@@ -6,13 +6,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-
     <script src="https://kit.fontawesome.com/a95fdb4b13.js" crossorigin="anonymous"></script>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body class="d-flex flex-column vh-100">
     <header class="shadow-sm">
       <nav class="navbar navbar-expand-lg navbar-light">
@@ -24,41 +21,62 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
-            <% if customer_signed_in? %>
-            <li class="nav-item">
-              <%= link_to "マイページ", customers_my_page_path, class: 'nav-link text-dark' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to '商品一覧', items_path, class: 'nav-link text-dark' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to 'カート', cart_items_path, class: 'nav-link text-dark' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to 'ログアウト', destroy_customer_session_path, class: 'nav-link text-dark' %>
-            </li>
-            <% else %>
-            <li class="nav-item">
-              <%= link_to "About", about_path, class: 'nav-link text-dark' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "商品一覧", items_path, class: 'nav-link text-dark' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "新規登録", new_customer_registration_path, class: 'nav-link text-dark' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "ログイン", new_customer_session_path, class: 'nav-link text-dark' %>
-            </li>
-            <% end %>
+              <% if customer_signed_in? %>
+                <li class="nav-item">
+                  <%= link_to "マイページ", customers_my_page_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to '商品一覧', items_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'カート', cart_items_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'ログアウト', destroy_customer_session_path, class: 'nav-link text-dark' %>
+                </li>
+              <% else %>
+                <li class="nav-item">
+                  <%= link_to "About", about_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to "商品一覧", items_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to "新規登録", new_customer_registration_path, class: 'nav-link text-dark' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to "ログイン", new_customer_session_path, class: 'nav-link text-dark' %>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>
       </nav>
     </header>
-  <main class='mb-auto'>
-    <%= yield %>
-  </main> 
+    <main class='mb-auto'>
+      <div class="mx-auto">
+        <% flash.each do |message_type, message| %>
+          <% css_class = case message_type.to_s
+                 when 'notice'
+                   'alert-success'
+                 when 'success'
+                   'alert-success'
+                 when 'alert'
+                   'alert-danger'
+                 when 'danger'
+                   'alert-danger'
+                 when 'warning'
+                   'alert-warning'
+                 else
+                   'alert-info'
+                 end %>
+          <div class="alert <%= css_class %> alert-dismissible fade show m-3" role="alert">
+            <%= message %>
+          </div>
+        <% end %>
+        <%= yield %>
+      </div>
+    </main>
     <footer class="border-top py-3">
       <div class="container mt-3">
         <div class="row">

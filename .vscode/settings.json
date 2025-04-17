@@ -3,6 +3,9 @@
 		"*": true,
 		"plaintext": false,
 		"markdown": false,
-		"scminput": false
+		"scminput": false,
+		"c": false,
+		"erb": false,
+		"ruby": false
 	}
 }
