@@ -25,4 +25,29 @@
       </div>
     </div>
   <% end %>
+  <div class="row mt-5">
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th style="background-color: #f0f0f0; width: 15%;">郵便番号</th>
+          <th style="background-color: #f0f0f0; width: 40%;">住所</th>
+          <th style="background-color: #f0f0f0; width: 20%;">宛名</th>
+          <th style="background-color: #f0f0f0; width: 220px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @addresses.each do |address| %>
+          <tr>
+            <td><%= address.postal_code %></td>
+            <td><%= address.address %></td>
+            <td><%= address.name %></td>
+            <td class="text-center">
+              <%= link_to "編集する", edit_address_path(address), class: "btn btn-success" %>
+              <%= link_to "削除する", address_path(address), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

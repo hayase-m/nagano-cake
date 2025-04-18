@@ -3,6 +3,7 @@ class Public::AddressesController < ApplicationController
 
   def index
     @address = Address.new
+    @addresses = Address.all
   end
 
   def edit; end
@@ -21,7 +22,12 @@ class Public::AddressesController < ApplicationController
 
   def update; end
 
-  def destroy; end
+  def destroy
+    @address = Address.find(params[:id])
+    @address.destroy
+    flash[:notice] = '配送先を削除しました'
+    redirect_to addresses_path
+  end
 
   private
 
