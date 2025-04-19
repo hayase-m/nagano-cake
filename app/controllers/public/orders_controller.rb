@@ -19,19 +19,45 @@ class Public::OrdersController < ApplicationController
   def thanks; end
 
   def create
+    cart_items = current_customer.cart_items
+    if cart_items.empty?
+      redirect_to cart_items_path, alert: 'カートが空です。'
+      return
+    end
+
     @order = Order.new(final_order_params)
 
-    if @order.save
-      CartItem.where(customer_id: current_customer.id).destroy_all
+    begin
+      ActiveRecord::Base.transaction do
+        @order.save!
+
+        cart_items.each do |cart_item|
+          order_detail = @order.order_details.build(
+            item_id: cart_item.item_id,
+            amount: cart_item.amount,
+            price: cart_item.item.price
+          )
+          order_detail.save!
+        end
+
+        cart_items.destroy_all
+      end
+
       redirect_to thanks_orders_path
-    else
+    rescue ActiveRecord::RecordInvalid => e
+      flash.now[:alert] = "注文処理に失敗しました。入力内容をご確認ください。 #{e.message}"
+      @cart_items = current_customer.cart_items
       render :confirm
     end
   end
 
-  def index; end
+  def index
+    @orders = current_customer.orders
+  end
 
-  def show; end
+  def show
+    @order = Order.find(params[:id])
+  end
 
   private
 
