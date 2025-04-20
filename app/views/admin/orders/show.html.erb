@@ -1,2 +1,85 @@
-<h1>Admin::Orders#show</h1>
-<p>Find me in app/views/admin/orders/show.html.erb</p>
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <h3 class="bg-light rounded px-3 py-2 d-inline-block">注文履歴詳細</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <h5>注文情報</h5>
+      <div class="row mb-2">
+        <div class="col-sm-3 fw-bold">購入者</div>
+        <div class="col-sm-9"><%= link_to @order.customer.last_name + @order.customer.first_name, admin_customer_path(@order.customer) %></div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-sm-3 fw-bold">注文日</div>
+        <div class="col-sm-9"><%= @order.created_at.strftime('%Y/%m/%d') %></div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-sm-3 fw-bold">配送先</div>
+        <div class="col-sm-9">
+          〒<%= @order.postal_code %><br>
+          <%= @order.address %><br>
+          <%= @order.name %>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-sm-3 fw-bold">支払方法</div>
+        <div class="col-sm-9"><%= @order.payment_method_i18n %></div>
+      </div>
+      <%= form_with model: @order, url: admin_order_path(@order), method: :patch, local: true, class: "row gx-3 align-items-center mb-4" do |f| %>
+        <div class="col-sm-3">
+          <%= f.label :status, "注文ステータス", class: "col-form-label fw-bold" %>
+        </div>
+        <div class="col-auto">
+          <%= f.select :status, Order.statuses.keys.map { |k| [Order.statuses_i18n[k], k] }, {}, { class: "form-select form-select-sm" } %>
+        </div>
+        <div class="col-auto">
+          <%= f.submit "更新", class: "btn btn-success btn-sm" %>
+        </div>
+      <% end %>
+      <h5 class="mt-4">注文内容</h5>
+      <table class="table table-bordered align-middle">
+        <thead style="background-color: #f0f0f0;">
+          <tr>
+            <th>商品名</th>
+            <th class="text-end">単価(税込)</th>
+            <th class="text-end">数量</th>
+            <th class="text-end">小計</th>
+            <th>製作ステータス</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @order.order_details.each do |detail| %>
+            <tr>
+              <td><%= detail.item.name %></td>
+              <td class="text-end"><%= number_to_currency(detail.price, unit: "円", precision: 0) %></td>
+              <td class="text-end"><%= detail.amount %></td>
+              <td class="text-end"><%= number_to_currency(detail.price * detail.amount, unit: "円", precision: 0) %></td>
+              <td><%= detail.making_status_i18n %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4">
+      <h5>請求情報</h5>
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th scope="row" class="table-light" style="width: 40%;">商品合計</th>
+            <td class="text-end"><%= number_to_currency(@order.order_details.sum { |detail| detail.price * detail.amount }, unit: "円", precision: 0) %></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-light">送料</th>
+            <td class="text-end"><%= number_to_currency(@order.shipping_cost, unit: "円", precision: 0) %></td>
+          </tr>
+          <tr>
+            <th scope="row" class="table-light">請求金額合計</th>
+            <td class="text-end fw-bold"><%= number_to_currency(@order.total_payment, unit: "円", precision: 0) %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

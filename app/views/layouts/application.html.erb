@@ -21,32 +21,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
-              <% if customer_signed_in? %>
-                <li class="nav-item">
-                  <%= link_to "マイページ", customers_my_page_path, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to '商品一覧', items_path, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to 'カート', cart_items_path, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to 'ログアウト', destroy_customer_session_path, class: 'nav-link text-dark' %>
-                </li>
+              <% if admin_namespace? %>
+                <%= render 'layouts/admin_header_nav' %>
               <% else %>
-                <li class="nav-item">
-                  <%= link_to "About", about_path, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to "商品一覧", items_path, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to "新規登録", new_customer_registration_path, class: 'nav-link text-dark' %>
-                </li>
-                <li class="nav-item">
-                  <%= link_to "ログイン", new_customer_session_path, class: 'nav-link text-dark' %>
-                </li>
+                <%= render 'layouts/public_header_nav' %>
               <% end %>
             </ul>
           </div>

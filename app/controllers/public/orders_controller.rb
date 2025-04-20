@@ -35,7 +35,7 @@ class Public::OrdersController < ApplicationController
           order_detail = @order.order_details.build(
             item_id: cart_item.item_id,
             amount: cart_item.amount,
-            price: cart_item.item.price
+            price: cart_item.item.tax_included_price
           )
           order_detail.save!
         end

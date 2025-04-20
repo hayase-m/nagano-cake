@@ -3,7 +3,6 @@
     <div class="col-lg-2">
       <%= render "/admin/genres/search" %>
     </div>
-
     <div class="col-lg-10 position-relative my-auto">
       <%#= render "public/shared/error_messages", resource: @cart_item %>
       <div class="row">
@@ -13,16 +12,16 @@
         <div class="offset-lg-1 col-lg-6">
           <h2 class="mb-3"><%= @item.name %></h2>
           <h3 class="mb-3"><%= @item.introduction %></h3>
-          <p class="my-5"><%= @item.tax_included_price %>（税込）</p>
+          <p class="my-5">¥<%= @item.tax_included_price %>（税込）</p>
           <%= form_with model: @cart_item,url:cart_items_path,method: :post do |f| %>
-          <div class="row">
-            <div class="col-md-6">
-              <%= f.hidden_field :item_id, value: @item.id %>
-              <%= f.select :amount, (1..10).to_a,{},{ class: "p-3 w-75 form-select border-success border-2 rounded" ,style:"border-width:2px;"} %>
-            </div>
-            <div class="col-md-6">
-              <%= f.submit 'カートに入れる',class: 'btn text-white btn-success py-3 px-5'%>
-            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <%= f.hidden_field :item_id, value: @item.id %>
+                <%= f.select :amount, (1..10).to_a,{},{ class: "p-3 w-75 form-select border-success border-2 rounded" ,style:"border-width:2px;"} %>
+              </div>
+              <div class="col-md-6">
+                <%= f.submit 'カートに入れる',class: 'btn text-white btn-success py-3 px-5'%>
+              </div>
             <% end %>
           </div>
         </div>
