@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
     resources :genres, only: %i[index create edit update]
 
-    resources :items, only: %i[new index edit create update destroy]
+    resources :items, only: %i[new show index edit create update]
 
     root to: 'homes#top'
   end

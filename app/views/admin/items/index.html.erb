@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col d-flex justify-content-between align-items-center">
+      <h3 class="bg-light rounded px-3 py-2 d-inline-block mb-0">商品一覧</h3>
+      <%= link_to new_admin_item_path, class: "btn btn-outline-dark rounded-circle", style: "border-width: 2px;" do %>
+        <i class="fa-solid fa-plus"></i>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-hover align-middle">
+        <thead class="table-light" style="background-color: #f0f0f0;">
+          <tr>
+            <th>商品ID</th>
+            <th>商品名</th>
+            <th class="text-end">税抜価格</th>
+            <th>ジャンル</th>
+            <th>ステータス</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @items.each do |item| %>
+            <tr>
+              <td><%= item.id %></td>
+              <td><%= link_to item.name, admin_item_path(item) %></td>
+              <td class="text-end"><%= number_to_currency(item.price, unit: "", precision: 0) %></td>
+              <td><%= item.genre.name %></td>
+              <td>
+                <% if item.is_active? %>
+                  <span class="text-success fw-bold">販売中</span>
+                <% else %>
+                  <span class="text-secondary fw-bold">販売停止中</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-3">
+    <div class="col-auto">
+      <%= paginate @items, theme: 'bootstrap-5' %>
+    </div>
+  </div>
+</div>
