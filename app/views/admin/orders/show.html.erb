@@ -50,13 +50,18 @@
           </tr>
         </thead>
         <tbody>
-          <% @order.order_details.each do |detail| %>
+          <% @order_details.each do |detail| %>
             <tr>
               <td><%= detail.item.name %></td>
               <td class="text-end"><%= number_to_currency(detail.price, unit: "円", precision: 0) %></td>
               <td class="text-end"><%= detail.amount %></td>
               <td class="text-end"><%= number_to_currency(detail.price * detail.amount, unit: "円", precision: 0) %></td>
-              <td><%= detail.making_status_i18n %></td>
+              <td>
+                <%= form_with model: detail, url: admin_order_detail_path(detail), method: :patch, local: true, class: "d-flex align-items-center mb-0" do |f| %>
+                  <%= f.select :making_status, OrderDetail.making_statuses.keys.map { |k| [OrderDetail.making_statuses_i18n[k], k] }, {}, { class: "form-select form-select-sm" } %>
+                  <%= f.submit "更新", class: "btn btn-success btn-sm mx-2" %>
+                <% end %>
+              </td>
             </tr>
           <% end %>
         </tbody>
