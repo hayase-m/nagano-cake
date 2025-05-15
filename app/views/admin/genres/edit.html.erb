@@ -1,2 +1,12 @@
-<h1>Admin::Genres#edit</h1>
-<p>Find me in app/views/admin/genres/edit.html.erb</p>
+<div style="margin: 40px;">
+  <h3 style="background: #eee; display: inline-block; padding: 4px 24px; border-radius: 4px; margin-bottom: 30px;">ジャンル編集</h3>
+  <div style="display: flex; align-items: center; gap: 40px; margin-top: 40px;">
+    <%= form_with model: @genre, url: admin_genre_path(@genre), method: :patch, local: true do |f| %>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <%= f.label :name, "ジャンル名", style: "font-weight: bold; min-width: 80px;" %>
+        <%= f.text_field :name, style: "width: 250px; padding: 6px; font-size: 18px;" %>
+        <%= f.submit "変更を保存", style: "background: #219a43; color: #fff; border: none; border-radius: 12px; padding: 10px 24px; font-size: 18px; font-weight: bold; margin-left: 40px; cursor: pointer;" %>
+      </div>
+    <% end %>
+  </div>
+</div>
