@@ -1,1 +1,10 @@
-ジャンル検索（未実装）
+<div class="border border-dark" style="width: 200px;">
+  <div class="fw-bold text-center border-bottom border-dark my-2">ジャンル検索</div>
+  <ul class="list-unstyled mb-0 ml-2">
+    <% Genre.all.each do |genre| %>
+      <li class="mb-2">
+        <%= link_to genre.name, items_path(genre_id: genre.id), class: "text-dark text-decoration-none" %>
+      </li>
+    <% end %>
+  </ul>
+</div>

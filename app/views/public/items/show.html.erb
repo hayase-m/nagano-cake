@@ -1,15 +1,18 @@
 <div class="container my-5">
   <div class="row">
-    <div class="col-lg-10 position-relative my-auto">
+    <div class="col-lg-2">
+      <%= render 'admin/genres/search' %>
+    </div>
+    <div class="offset-lg-1 col-lg-8 position-relative my-auto">
       <%#= render "public/shared/error_messages", resource: @cart_item %>
       <div class="row">
-        <div class="col-lg-5 d-flex justify-content-center">
+        <div class="col-lg-3">
           <%= image_tag @item.get_item_image(300,300) %>
         </div>
-        <div class="offset-lg-1 col-lg-6">
+        <div class="offset-lg-3 col-lg-6">
           <h2 class="mb-3"><%= @item.name %></h2>
           <h3 class="mb-3"><%= @item.introduction %></h3>
-          <p class="my-5">¥<%= @item.tax_included_price %>（税込）</p>
+          <p class="my-5">¥<%= number_with_delimiter(@item.tax_included_price) %>（税込）</p>
           <%= form_with model: @cart_item,url:cart_items_path,method: :post do |f| %>
             <div class="row">
               <div class="col-md-6">
