@@ -3,15 +3,23 @@ class Admin::OrderDetailsController < ApplicationController
   def update
     @order_detail = OrderDetail.find(params[:id])
     @order = @order_detail.order
-    return unless @order_detail.update(order_detail_params)
+
+    if @order_detail.update(order_detail_params)
+      @order.update(status: 'production') if @order.order_details.any? do |details|
+        details.making_status == 'production'
+      end
+      @order.update(status: 'preparation') if @order.order_details.all? do |details|
+        details.making_status == 'completed'
+      end
+    end
 
     flash[:notice] = '製作ステータスを更新しました'
     redirect_to admin_order_path(@order)
   end
-end
 
-private
+  private
 
-def order_detail_params
-  params.require(:order_detail).permit(:making_status)
+  def order_detail_params
+    params.require(:order_detail).permit(:making_status)
+  end
 end
