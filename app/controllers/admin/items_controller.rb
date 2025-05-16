@@ -1,7 +1,11 @@
 class Admin::ItemsController < ApplicationController
   before_action :authenticate_admin!
   def index
-    @items = Item.order(created_at: :asc).page(params[:page]).per(10)
+    @items = if params[:search].present?
+               Item.where('name LIKE ?', "%#{params[:search]}%").order(created_at: :desc).page(params[:page]).per(10)
+             else
+               Item.order(created_at: :desc).page(params[:page]).per(10)
+             end
   end
 
   def new

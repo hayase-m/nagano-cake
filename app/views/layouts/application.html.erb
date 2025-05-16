@@ -23,18 +23,27 @@
             <ul class="navbar-nav ml-auto">
               <% if admin_namespace? %>
                 <%= render 'layouts/admin_header_nav' %>
-              <% else %>
-                <%= render 'layouts/public_header_nav' %>
-              <% end %>
-            </ul>
-          </div>
+                <div class="mt-1">
+                  <% if admin_namespace? %>
+                    <%= form_with url: admin_items_path, method: :get, local: true do |f| %>
+                      <%= f.text_field :search, placeholder: "Search", value: params[:search] %>
+                      <%= f.submit "🔍"%>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% else %>
+              <%= render 'layouts/public_header_nav' %>
+            <% end %>
+          </ul>
         </div>
-      </nav>
-    </header>
-    <main class='mb-auto'>
-      <div class="mx-auto">
-        <% flash.each do |message_type, message| %>
-          <% css_class = case message_type.to_s
+      </div>
+    </nav>
+  </header>
+  <main class='mb-auto'>
+    <div class="mx-auto">
+      <% flash.each do |message_type, message| %>
+        <% css_class = case message_type.to_s
                  when 'notice'
                    'alert-success'
                  when 'success'
@@ -48,21 +57,21 @@
                  else
                    'alert-info'
                  end %>
-          <div class="alert <%= css_class %> alert-dismissible fade show m-3" role="alert">
-            <%= message %>
-          </div>
-        <% end %>
-        <%= yield %>
-      </div>
-    </main>
-    <footer class="border-top py-3">
-      <div class="container mt-3">
-        <div class="row">
-          <div class="mx-auto">
-            <p>CopyRight Infratop.inc</p>
-          </div>
+        <div class="alert <%= css_class %> alert-dismissible fade show m-3" role="alert">
+          <%= message %>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
+  </main>
+  <footer class="border-top py-3">
+    <div class="container mt-3">
+      <div class="row">
+        <div class="mx-auto">
+          <p>CopyRight Infratop.inc</p>
         </div>
       </div>
-    </footer>
-  </body>
+    </div>
+  </footer>
+</body>
 </html>
