@@ -2,11 +2,13 @@ class Public::OrdersController < ApplicationController
   before_action :authenticate_customer!
 
   def new
+    redirect_if_cart_empty
     @customer = current_customer
     @addresses = Address.all
   end
 
   def confirm
+    redirect_if_cart_empty
     @order = Order.new(input_order_params)
     @total = 0
     @cart_items = current_customer.cart_items
@@ -19,18 +21,11 @@ class Public::OrdersController < ApplicationController
   def thanks; end
 
   def create
-    cart_items = current_customer.cart_items
-    if cart_items.empty?
-      redirect_to cart_items_path, alert: 'カートが空です。'
-      return
-    end
-
+    redirect_if_cart_empty
     @order = Order.new(final_order_params)
-
     begin
       ActiveRecord::Base.transaction do
         @order.save!
-
         cart_items.each do |cart_item|
           order_detail = @order.order_details.build(
             item_id: cart_item.item_id,
@@ -60,6 +55,13 @@ class Public::OrdersController < ApplicationController
   end
 
   private
+
+  def redirect_if_cart_empty
+    cart_items = current_customer.cart_items
+    return unless cart_items.empty?
+
+    redirect_to cart_items_path, alert: 'カートが空です。'
+  end
 
   def set_order_address(order, order_params)
     case order_params[:select_address]
