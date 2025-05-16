@@ -30,6 +30,7 @@ class Admin::ItemsController < ApplicationController
     if @item.update(item_params)
       redirect_to admin_item_path(@item), notice: '商品情報が更新されました'
     else
+      flash.now[:alert] = '商品情報の更新に失敗しました'
       render :edit
     end
   end
