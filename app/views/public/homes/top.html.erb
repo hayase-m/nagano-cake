@@ -20,7 +20,7 @@
               <% end %>
               <div class="card-body">
                 <h5 class="card-title"><%= item.name %></h5>
-                <p class="card-text">¥<%= item.tax_included_price %></p>
+                <p class="card-text">¥<%= number_with_delimiter(item.tax_included_price) %></p>
               </div>
             </div>
           </div>
