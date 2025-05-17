@@ -26,7 +26,7 @@ class Public::OrdersController < ApplicationController
     begin
       ActiveRecord::Base.transaction do
         @order.save!
-        cart_items.each do |cart_item|
+        @cart_items.each do |cart_item|
           order_detail = @order.order_details.build(
             item_id: cart_item.item_id,
             amount: cart_item.amount,
@@ -35,7 +35,7 @@ class Public::OrdersController < ApplicationController
           order_detail.save!
         end
 
-        cart_items.destroy_all
+        @cart_items.destroy_all
       end
 
       redirect_to thanks_orders_path
@@ -57,8 +57,8 @@ class Public::OrdersController < ApplicationController
   private
 
   def redirect_if_cart_empty
-    cart_items = current_customer.cart_items
-    return unless cart_items.empty?
+    @cart_items = current_customer.cart_items
+    return unless @cart_items.empty?
 
     redirect_to cart_items_path, alert: 'カートが空です。'
   end
