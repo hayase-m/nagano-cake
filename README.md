@@ -1,24 +1,58 @@
-# README
+# nagano-cake
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+DMM Webcampのカリキュラムで作成した模擬ECサイトのアプリケーションです。
 
-Things you may want to cover:
+## 動作環境
 
-* Ruby version
+* Ruby: 3.1.2
+* Rails: 6.1.7.10
+* Node.js: v16.x (v16.20.2で開発・動作確認済み)
+* Yarn: 1.x (1.22.22で開発・動作確認済み)
+* Database: SQLite3
 
-* System dependencies
+## ローカルでのセットアップ手順
 
-* Configuration
+1.  **リポジトリをクローンする**
+    ```bash
+    git clone [https://github.com/hayase-m/nagano-cake.git]
+    cd nagano-cake
+    ```
 
-* Database creation
+2.  **必要なRubyのgemをインストールする**
+    ```bash
+    bundle install
+    ```
 
-* Database initialization
+3.  **JavaScriptの依存関係をインストールする**
+    ```bash
+    yarn install
+    # もしyarnがインストールされていない場合は、先にNode.jsとYarnをインストールしてください。
+    ```
 
-* How to run the test suite
+4.  **データベースを作成・設定する**
+    ```bash
+    rails db:create
+    rails db:migrate
+    ```
 
-* Services (job queues, cache servers, search engines, etc.)
+5.  **(任意) 初期データを投入する**
+    ```bash
+    rails db:seed
+    ```
 
-* Deployment instructions
+6.  **ローカルサーバーを起動する**
+    ```bash
+    rails s
+    ```
 
-* ...
+7.  ブラウザで `http://localhost:3000` にアクセスしてください。
+
+## 主な使用技術
+
+* Ruby 3.1.2
+* Ruby on Rails 6.1.7.10
+* Puma
+* SQLite3
+* Sass, Webpacker
+* Devise
+* Kaminari
